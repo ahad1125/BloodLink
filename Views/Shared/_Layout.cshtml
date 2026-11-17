@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] · BloodLink</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg bg-white border-bottom sticky-top">
+        <div class="container">
+            <a class="navbar-brand fw-bold text-danger" asp-controller="Home" asp-action="Index"><span class="brand-mark">B</span> BloodLink</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="mainNav">
+                <div class="navbar-nav ms-auto align-items-lg-center gap-lg-3">
+                    <a class="nav-link" asp-controller="Home" asp-action="Index" asp-fragment="how">How it works</a>
+                    <a class="nav-link" asp-controller="Home" asp-action="Index" asp-fragment="roles">For everyone</a>
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a class="nav-link" asp-controller="Home" asp-action="Dashboard">@User.Identity.Name</a>
+                        <form asp-controller="Home" asp-action="Logout" method="post" class="d-inline"><button class="btn btn-outline-secondary rounded-pill px-4" type="submit">Log out</button></form>
+                    }
+                    else
+                    {
+                        <a class="nav-link" asp-controller="Home" asp-action="Login">Log in</a>
+                        <a class="btn btn-danger rounded-pill px-4" asp-controller="Home" asp-action="Register">Join BloodLink</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </nav>
+    @if (TempData["Notice"] is string notice)
+    {
+        <div class="container mt-3"><div class="alert alert-info alert-dismissible fade show" role="status">@notice<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div></div>
+    }
+    <main>@RenderBody()</main>
+    <footer class="border-top py-4"><div class="container d-flex flex-column flex-md-row justify-content-between gap-2 small text-secondary"><span class="fw-bold text-dark">♥ BloodLink</span><span>Connecting people. Supporting every donation.</span><span>Deliverable 2 · MVC prototype</span></div></footer>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
